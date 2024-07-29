@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+/* General Styles for Both Pages */
+
+/* Body */
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('../Images/Material.jpg'); /* Background image for the header */
+  background-size: cover; /* Stretch image to cover the entire screen */
+  background-position: center; /* Center the image horizontally and vertically */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to the top */
+  align-items: center; /* Center content horizontally */
+  min-height: 100vh;
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align items to the top */
+  align-items: center; /* Center content horizontally */
+  max-width: 1000px;
+  padding: 20px;
+  margin-top: 20px; /* Add top margin */
+}
+
+/* Header container */
+.header-container {
+  display: flex;
+  justify-content: center; /* Center the logo and title */
+  align-items: center; /* Vertically center the items */
+  position: relative; /* Ensure it can contain absolutely positioned elements */
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Header image style */
+.header-container img {
+  max-width: 300px;
+  height: auto;
+  margin-right: 20px;
+}
+
+/* Heading styles */
+.header-container h1 {
+  margin: 0;
+  color: #fa713a;
+  text-align: center; /* Center the h1 text */
+  flex-grow: 1; /* Allow the h1 to grow and take up remaining space */
+}
+
+.header-container h3 {
+  margin: 0;
+  color: #000000;
+  text-align: center;
+}
+
+/* CSS for index.html and role selection */
+#role {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.forgot-password {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Styles Specific to the Login Page */
+
+/* Login container */
+.login-container {
+  width: 50%; /* Set the width of the login container */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #cffffad3;
+  text-align: center;
+  margin: 0 auto; /* Center login box horizontally (optional) */
+}
+
+/* Input fields and labels */
+.input-group {
+  margin-bottom: 30px;
+  text-align: left; /* Align labels to the left */
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #000000;
+  font-weight: bold; /* Make label text bold */
+}
+
+.input-group input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Login button style */
+.btn-login {
+  width: 40%;
+  padding: 10px;
+  background-color: #ff9800;
+  color: #000000;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #f57c00;
+}
+
+/* Styles Specific to the Dashboard Page */
+
+/* Styling dashboard container */
+.dashboard-container {
+  text-align: center; /* Center align dashboard content */
+  margin-top: 20px; /* Add spacing above dashboard container */
+}
+
+/* Dashboard buttons container */
+.button-container {
+  display: flex; /* Flexbox layout */
+  justify-content: center; /* Center align buttons */
+  flex-wrap: wrap; /* Wrap buttons to the next line if needed */
+}
+
+/* Dashboard button style */
+.btn-dashboard {
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Ensure the button styles are applied correctly */
+  text-align: center; /* Center the text inside the button */
+  width: 200px; /* Set width for buttons */
+  padding: 20px; /* Padding inside buttons */
+  background-color: #ffdd00; /* Yellow color */
+  color: #000000; /* Black text color */
+  border: none; /* No border */
+  border-radius: 40px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background color transition */
+  margin: 10px; /* Margin around buttons */
+}
+
+.btn-dashboard:hover {
+  background-color: #ffa200; /* Darker yellow color on hover */
+}
+
+/* Log Out button style */
+.btn-log-out {
+  margin-top: 20px; /* Spacing above button */
+  padding: 10px; /* Padding inside button */
+  background-color: #ffdd00; /* Yellow color */
+  color: #000000; /* Black text color */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.btn-log-out:hover {
+  background-color: #f5c400; /* Darker yellow color on hover */
+}
+
+/* Profile Setup button style */
+.header-container {
+  position: relative; /* Ensure absolute positioning for profile-container */
+}
+
+.profile-container {
+  position: absolute;
+  top: 70px;
+  right: 50px;
+}
+
+.btn-profile-setup {
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center; /* Center the icon horizontally */
+  align-items: center; /* Center the icon vertically */
+  width: 40px; /* Set width for the button */
+  height: 70px; /* Set height for the button */
+  text-decoration: none; /* Remove underline */
+  cursor: pointer;
+}
+
+.profile-icon {
+  width: 35px; /* Set width for the icon */
+  height: 35px; /* Set height for the icon */
+}

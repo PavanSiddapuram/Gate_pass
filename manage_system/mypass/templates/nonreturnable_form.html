@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate Pass Management System</title>
+    <!-- Linking Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Linking custom CSS file -->
+    <link rel="stylesheet" href="{% static 'CSS/form_styles.css' %}">
+</head>
+<body>
+    <!-- Container for the entire content -->
+    <!-- Container for the entire content -->
+    <div class="container">
+        <!-- Header section with logo and title -->
+        <div class="header-container">
+            <div class="logo-container">
+                <!-- Logo image for the institution -->
+                <img src="https://manipal.edu/content/dam/manipal/mu/maheblr/logo/MAHE%20Bengaluru%20305x114.svg" alt="Manipal Academy Logo">
+            </div>
+            <div class="title-container">
+                <h1><strong>Exit Gate Pass for Material</strong></h1>
+            </div>
+        </div>  
+        <!-- Form for gate pass information -->
+        <form id="exitForm">
+            <!-- Row for Gate Pass ID, Date and Time, and Department -->
+            <div class="row">
+                <!-- Gate Pass ID field -->
+                <div class="form-group col-md-4">
+                    <label for="gatePassId">Exit Gate Pass ID</label>
+                    <input type="text" class="form-control" id="gatePassId" name="gatePassId" readonly>
+                </div>
+                <!-- Date and Time field -->
+                <div class="form-group col-md-4">
+                    <label for="dateTime">Date and Time</label>
+                    <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" readonly>
+                </div>
+                <!-- Institution/Department dropdown -->
+                <div class="form-group col-md-4">
+                    <label for="productDepartment">Institution / Department </label>
+                    <select class="form-control" id="productDepartment" name="productDepartment" required>
+                        <option value="">Select</option>
+                        <option value="MAHE-BLR">MAHE-BLR</option>
+                        <option value="MIT">MIT</option>
+                        <option value="SMI">SMI</option>
+                        <option value="TAPMI">TAPMI</option>
+                        <option value="MLS">MLS</option>
+                        <option value="DLHS">DLHS</option>
+                        <option value="MIRM">MIRM</option>
+                        <option value="DOC">DOC</option>
+                        <option value="MILES">MILES</option>
+                        <option value="DPP">DPP</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Row for Product Category, Name, Serial Numbers, Quantity, Description -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <!-- Product Category dropdown -->
+                    <label for="productCategory">Sub Department<span class="indicator">*</span></label>
+                    <select class="form-control" id="productCategory" name="productCategory" required>
+                        <option value="">Select</option>
+                        <option value="IT">IT</option>
+                        <option value="General Service">General Service</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="HVAC / Mechanical">HVAC / Mechanical</option>
+                        <option value="Carpentry">Carpentry</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Fire & Safety">Fire & Safety</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <!-- Product Name dropdown and text input -->
+                    <label for="productName">Product Name <span class="indicator">*</span></label>
+                    <select class="form-control" id="productNameDropdown" name="productName" required style="display: none;">
+                        <option value="">Select</option>
+                        <option value="Other Products">Other Products</option>
+                        <option value="All in One Desktop">All in One Desktop</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="HDMI Cable">HDMI Cable</option>
+                        <option value="Polycom Studio">Polycom Studio</option>
+                        <option value="Logitech Camera">Logitech Camera</option>
+                        <option value="Cisco IP Phone">Cisco IP Phone</option>
+                        <option value="Hard Disk">Hard Disk</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Keyboard / Mouse">Keyboard / Mouse</option>
+                        <option value="Photo Copier">Photo Copier</option>
+                        <option value="Web camera">Web camera</option>
+                        <option value="Laptop Charger">Laptop Charger</option>
+                        <option value="Adopter">Adopter</option>
+                        <option value="LAN Cable">LAN Cable</option>
+                        <option value="Printers">Printers</option>
+                        <option value="Printer Cartridge">Printer Cartridge</option>
+                        <option value="Camera">Camera</option>
+                        <option value="Live Streaming Device">Live Streaming Device</option>
+                        <option value="Video Camera">Video Camera</option>
+                        <option value="Network Switch">Network Switch</option>
+                        <option value="Network Router">Network Router</option>
+                        <option value="Headset">Headset</option>
+                        <option value="Cell Chargers">Cell Chargers</option>
+                        <option value="Speakers">Speakers</option>
+                        <option value="Tripod">Tripod</option>
+                    </select>
+                    <input type="text" class="form-control" id="productNameText" name="productNameText" style="display: none;" required>
+                    <!-- Input field for specifying other product name -->
+                    <div id="otherProductName" style="display: none;">
+                        <label for="otherProductNameInput">Please specify the product name <span class="indicator">*</span></label>
+                        <input type="text" class="form-control" id="otherProductNameInput" name="otherProductNameInput" pattern="[A-Za-z\s]+" title="No symbols and digits are allowed" required>
+                    </div>
+
+
+                    <!-- Product Quantity input -->
+                    <label for="productQuantity">Product Quantity</label>
+                    <input type="number" class="form-control" id="productQuantity" name="productQuantity" min="1" max="100" title="Maximum quantity allowed is 100" required>
+                    
+
+                    <!-- Product Serial Numbers textarea -->
+                    <label for="productSerialNos">Product Serial Nos.</label>
+                    <textarea class="form-control" id="productSerialNos" name="productSerialNos" rows="5" placeholder="Enter serial numbers separated by commas or newlines" required></textarea>
+                    <small class="form-text text-muted">Enter serial numbers separated by commas or newlines. Maximum 100 serial numbers allowed.</small>
+                    
+                    <!-- Button to validate serial numbers -->
+                    <button type="button" class="btn btn-primary" id="validateSerialsBtn">Validate Serial Numbers</button>
+                    <!-- Error message for serial numbers validation -->
+                    <div id="serialsError" class="text-danger" style="display: none;">Number of serial numbers must match the quantity.</div>
+                   
+                   
+                    <!-- Product Description textarea -->
+                    <label for="productDescription">Product Description</label>
+                    <textarea class="form-control" id="productDescription" name="productDescription" rows="3"></textarea>
+                </div>
+                <!-- Column for product image, returnable status, reason, and transport -->
+                <div class="form-group col-md-6">
+
+
+                    <!-- Product Image file input -->
+                    <div class="form-group" id="previewImageContainer">
+                        <label for="productImage">Product Image <span class="indicator">*</span></label>
+                        <!-- <input type="file" class="form-control-file" id="productImage" name="productImage" accept="image/*" required>
+                        <img id="previewImage" src="#" alt="Preview" style="display: none;">
+                        <span id="deleteImage" style="display: none;">&#10060;</span> -->
+                        <input type="file" id="productImage" accept="image/jpeg, image/jpg, image/png">
+                        <img id="previewImage" style="display:none;" />
+                        <button id="deleteImage" style="display:none;">Delete</button>
+                    </div>
+                    <!-- Returnable status dropdown -->
+                    <label for="ifReturnable">If Product is returnable<span class="indicator">*</span></label>
+                    <select class="form-control" id="ifReturnable" name="ifReturnable" required>
+                        <option value="">Select</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
+                    <!-- Return Date input, shown if product is returnable -->
+                    <div id="returnDateContainer" style="display: none;">
+                        <label for="returnDate">Expected Return Date</label>
+                        <input type="date" class="form-control" id="returnDate" name="returnDate">
+                    </div>
+                    <!-- Reason for Going Out dropdown -->
+                    <label for="reason">Reason for Exit <span class="indicator">*</span></label>
+                    <select class="form-control" id="reason" name="reason" required>
+                        <option value="">Select</option>
+                        <option value="other">Other</option>
+                        <option value="Replacement">As Replacement</option>
+                        <option value="Approval">For Approval</option>
+                        <option value="Demonstration">For Demonstration</option>
+                        <option value="Rejected/Damaged">Rejected Pieces / Damaged Pieces</option>
+                        <option value="Service">For Service Purpose</option>
+                        <option value="Job Work">For Job Work Purpose</option>
+                    </select>
+                    <!-- Input field for specifying other reasons -->
+                    <div id="otherReasonField" style="display: none;">
+                        <label for="otherReason">Please specify the reason <span class="indicator">*</span></label>
+                        <input type="text" class="form-control" id="otherReason" name="otherReason" required pattern="[a-zA-Z\s]+" title="No symbols and Digits are allowed">
+                    </div>
+                    <!-- Mode of Transport input -->
+                    <label for="modeOfTransport">Mode of Transport <span class="indicator">*</span></label>
+                    <select class="form-control" id="modeOfTransport" name="modeOfTransport" required>
+                        <option value="">Select</option>
+                        <option value="Courier">Courier</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Company Vehicle">Institution Vehicle</option>
+                        <option value="Postal Service">Postal Service</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <!-- Input field for specifying other mode of transport -->
+                    <div id="otherModeOfTransportField" style="display: none;">
+                        <label for="otherModeOfTransport">Please specify Number <span class="indicator">*</span></label>
+                        <input type="text" class="form-control" id="otherModeOfTransport" name="otherModeOfTransport" required pattern="[a-zA-Z\s]+" title="No symbols and Digits are allowed">
+                    </div>
+
+                    <!-- Product Status -->
+                    <label for="locationUpdate">Status </label>
+                    <select class="form-control" id="locationUpdate" name="locationUpdate" required>
+                        <option value="">Select </option>
+                        <option value="Warehouse">Warehouse</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Returned">Returned</option>
+                    </select>
+
+                </div>
+                <!-- Row for Add Product button -->
+                <div class="row">
+                    <div class="col-md-12 add-product-container">
+                        <button type="button" class="btn btn-success" id="addProductBtn">Add Product</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Table to display added products -->
+        <div>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Inst. / Dept.</th>
+                        <th>Sub Dept.</th>
+                        <th>Prod. Name</th>
+                        <th>Prod. Ser. No.</th>
+                        <th>Prod. Qty.</th>
+                        <th>Prod. Desc.</th>
+                        <th>Prod.is Returnable</th>
+                        <th>Return Date</th>
+                        <th>Prod. Image</th>
+                        <th>Reason for Exit</th>
+                        <th>Mode Of Transport</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <tr id="noProductsRow">
+                        <td colspan="12"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+        <!-- Submit button -->
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <!-- Footer section -->
+        <div class="new-footer">
+            <p>&copy; 2024 Manipal Academy of Higher Education, Bengaluru</p>
+        </div>
+    </div>    
+    <!-- Linking custom JavaScript file -->
+    <script src="{% static 'JS/script.js' %}"></script>
+</body>
+</html>

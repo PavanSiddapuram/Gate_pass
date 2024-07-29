@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gate Pass Management System</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/index_styles.css' %}">
+</head>
+<body>
+    <div id="main-container">
+        <div class="container" id="dashboard-container">
+            <div class="header-container">
+                <img src="https://npf-unlayer.s3.ap-south-1.amazonaws.com/unlayer/images/1650016890851-footer_mahe-bengaluru-logo.png" width="300">
+                <h1>Gate Pass Management System</h1>
+            </div>
+            <div class="dashboard-container">
+                <div class="button-container">
+                    <a href="{% url 'returnable_form' %}" class="btn-dashboard">Returnable Gate Pass</a>
+                    <a href="{% url 'nonreturnable_form' %}" class="btn-dashboard">Non Returnable Gate Pass</a>
+                    <a href="{% url 'profile_setup' %}" class="btn-dashboard">Profile Setup</a>
+                    <a href="{% url 'approval' %}" class="btn-dashboard">Approval</a>
+                    <a href="{% url 'activity' %}" class="btn-dashboard">Activity Log</a>
+                </div>
+                <button class="btn-log-out" onclick="LogOut()">← Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function LogOut() {
+            window.location.href = "{% url 'index' %}"; // Redirect to the login page
+        }
+   </script>
+</body>
+</html>
+
+

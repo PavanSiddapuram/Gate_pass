@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Page</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/activity_styles.css' %}">
+</head>
+<body>
+    <div id="main-container">
+        <div class="header">
+            <h1>Activity Page</h1>
+        </div>
+        <div class="content">
+            <h2>All Gate Pass Requests</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Material</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Return Date</th>
+                </tr>
+                {% for gate_pass in gate_passes %}
+                <tr>
+                    <td>{{ gate_pass.id }}</td>
+                    <td>{{ gate_pass.employee.name }}</td>
+                    <td>{{ gate_pass.material_name }}</td>
+                    <td>{{ gate_pass.reason }}</td>
+                    <td>{{ gate_pass.status }}</td>
+                    <td>{{ gate_pass.return_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="footer">
+            <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
+
+

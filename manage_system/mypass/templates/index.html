@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gate Pass Management System</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/index_styles.css' %}">
+    <style>
+        .input-group {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            top: 30%;
+            right: 10px;
+            transform: translateY(50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div class="container" id="login-container">
+            <div class="header-container">
+                <img src="https://npf-unlayer.s3.ap-south-1.amazonaws.com/unlayer/images/1650016890851-footer_mahe-bengaluru-logo.png" width="300">
+                <h1>Gate Pass Management System</h1>
+                <h3>Simple, Quick & Efficient.</h3>
+            </div>
+            <div class="login-container">
+                <h2>Login</h2>
+                <form id="loginForm" method="post" action="{% url 'index' %}" onsubmit="return validateForm()">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                    </div>
+                    <button type="submit" class="btn-login"><h3>Login</h3></button>
+                </form>
+                <a href="{% url 'forgot_password' %}" class="forgot-password">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Simulating a small user database
+            var users = [
+                { username: "emp_user1", password: "emp_pass1", role: "employee" },
+                { username: "emp_user2", password: "emp_pass2", role: "employee" },
+                { username: "dept_head1", password: "dept_pass1", role: "department_head" },
+                { username: "dept_head2", password: "dept_pass2", role: "department_head" },
+                { username: "security_head1", password: "security_pass1", role: "security_head" },
+                { username: "security_head2", password: "security_pass2", role: "security_head" }
+            ];
+
+            // Find the user based on username and password
+            var user = users.find(u => u.username === username && u.password === password);
+
+            // Redirect based on role
+            if (user) {
+                window.location.href = "{% url 'dashboard' %}?role=" + user.role; // Redirect to dashboard with role parameter
+                return false; // Prevent form submission
+            } else {
+                alert("Invalid username or password.");
+                return false; // Prevent form submission
+            }
+        }
+
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            var toggleIcon = document.querySelector(".toggle-password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleIcon.textContent = "🙈"; // Change icon to a different one when showing password
+            } else {
+                passwordField.type = "password";
+                toggleIcon.textContent = "👁️"; // Change icon back to the original when hiding password
+            }
+        }
+    </script>
+</body>
+</html>

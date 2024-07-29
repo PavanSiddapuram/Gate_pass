@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Approval Page</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/approval_styles.css' %}">
+</head>
+<body>
+    <div id="main-container">
+        <div class="header">
+            <h1>Approval Page</h1>
+        </div>
+        <div class="content">
+            <h2>Pending Gate Pass Requests</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Material</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                {% for gate_pass in gate_passes %}
+                <tr>
+                    <td>{{ gate_pass.id }}</td>
+                    <td>{{ gate_pass.employee.name }}</td>
+                    <td>{{ gate_pass.material_name }}</td>
+                    <td>{{ gate_pass.reason }}</td>
+                    <td>{{ gate_pass.status }}</td>
+                    <td>
+                        <a href="{% url 'approve_gate_pass' gate_pass.id %}">Approve</a>
+                        <a href="{% url 'reject_gate_pass' gate_pass.id %}">Reject</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="footer">
+            <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
