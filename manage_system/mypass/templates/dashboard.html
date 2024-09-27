@@ -1,36 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gate Pass Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Gate Pass Management System</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'CSS/index_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/dashboard_styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div id="main-container">
-        <div class="container" id="dashboard-container">
-            <div class="header-container">
-                <img src="https://npf-unlayer.s3.ap-south-1.amazonaws.com/unlayer/images/1650016890851-footer_mahe-bengaluru-logo.png" width="300">
+    <div class="dashboard-container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="https://npf-unlayer.s3.ap-south-1.amazonaws.com/unlayer/images/1650016890851-footer_mahe-bengaluru-logo.png" alt="University Logo" class="logo">
+            </div>
+            <div class="title-container">
                 <h1>Gate Pass Management System</h1>
             </div>
-            <div class="dashboard-container">
-                <div class="button-container">
-                    <a href="{% url 'returnable_form' %}" class="btn-dashboard">Returnable Gate Pass</a>
-                    <a href="{% url 'nonreturnable_form' %}" class="btn-dashboard">Non Returnable Gate Pass</a>
-                    <a href="{% url 'profile_setup' %}" class="btn-dashboard">Profile Setup</a>
-                    <a href="{% url 'approval' %}" class="btn-dashboard">Approval</a>
-                    <a href="{% url 'activity' %}" class="btn-dashboard">Activity Log</a>
-                </div>
-                <button class="btn-log-out" onclick="LogOut()">← Log Out</button>
+            <div class="user-info">
+                <span>{{ user_profile.role }} | {{ user_profile.sub_department }}</span>
+                <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
             </div>
-        </div>
-    </div>
+        </header>
 
-    <script>
-        function LogOut() {
-            window.location.href = "{% url 'index' %}"; // Redirect to the login page
-        }
-   </script>
+        <div class="button-container">
+            {% if user_profile.role == 'Employee' %}
+                <a href="{% url 'returnable_form' %}" class="btn-dashboard"><i class="fas fa-arrow-circle-left"></i> Returnable Gate Pass</a>
+                <a href="{% url 'nonreturnable_form' %}" class="btn-dashboard"><i class="fas fa-arrow-circle-right"></i> Non-Returnable Gate Pass</a>
+                <a href="{% url 'activity' %}" class="btn-dashboard"><i class="fas fa-list"></i> Activity Log</a>
+            {% elif user_profile.role == 'Department Head' %}
+                <a href="{% url 'approval' %}" class="btn-dashboard"><i class="fas fa-check-circle"></i> Approval</a>
+                <a href="{% url 'activity' %}" class="btn-dashboard"><i class="fas fa-list"></i> Activity Log</a>
+            {% elif user_profile.role == 'Security Head' %}
+                <a href="{% url 'approval' %}" class="btn-dashboard"><i class="fas fa-check-circle"></i> Approval</a>
+                <a href="{% url 'activity' %}" class="btn-dashboard"><i class="fas fa-list"></i> Activity Log</a>
+            {% endif %}
+        </div>
+
+        <div class="recent-requests">
+            <h2>Recent Gate Pass Requests</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Pass ID</th>
+                        <th>Material/Product</th>
+                        <th>Date</th>
+                        <th>Approval Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through recent requests -->
+                    {% for request in gate_passes %}
+                    <tr>
+                        <td>{{ request.pass_id }}</td>
+                        <td>{{ request.product_name }}</td>
+                        <td>{{ request.date_time|date:"d-m-Y H:i A" }}</td>
+                        
+                        <td>
+                            {% if request.approved_by_department_head and request.approved_by_security_head %}
+                                <span class="badge badge-success">Approved</span>
+                            {% elif request.approved_by_department_head %}
+                                <span class="badge badge-warning">Pending Security Approval</span>
+                            {% elif request.approved_by_security_head %}
+                                <span class="badge badge-warning">Pending Department Approval</span>
+                            {% else %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Actions column with a link to view detailed request -->
+                        <td>
+                            <a href="{% url 'request_details' request.id %}" class="btn btn-sm btn-info">View Details</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No recent requests found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>        
+    </div>
 </body>
 </html>
-
 

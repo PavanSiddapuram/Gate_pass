@@ -1,43 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Page</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'CSS/activity_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/activity_styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div id="main-container">
+    <!-- Header Section -->
+    <header class="header-container">
+        <div class="logo-container">
+            <img src="https://npf-unlayer.s3.ap-south-1.amazonaws.com/unlayer/images/1650016890851-footer_mahe-bengaluru-logo.png" alt="University Logo" class="logo">
+        </div>
+        <div class="role-info">
+            <h1> ACTIVITY OVERVIEW </h1>
+        </div>
+        <div class="buttons">
+            <a href="{% url 'dashboard' %}" class="btn-back">Back to Dashboard</a>
+            <a href="{% url 'logout' %}" class="btn-log-out"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-container">
         <div class="header">
             <h1>Activity Page</h1>
         </div>
         <div class="content">
             <h2>All Gate Pass Requests</h2>
             <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Employee</th>
-                    <th>Material</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                    <th>Return Date</th>
-                </tr>
-                {% for gate_pass in gate_passes %}
-                <tr>
-                    <td>{{ gate_pass.id }}</td>
-                    <td>{{ gate_pass.employee.name }}</td>
-                    <td>{{ gate_pass.material_name }}</td>
-                    <td>{{ gate_pass.reason }}</td>
-                    <td>{{ gate_pass.status }}</td>
-                    <td>{{ gate_pass.return_date }}</td>
-                </tr>
-                {% endfor %}
+                <thead>
+                    <tr>
+                        <th>Pass ID</th>
+                        <th>Employee</th>
+                        <th>Material/Product</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in gate_passes %}
+                    <tr>
+                        <td>{{ request.pass_id }}</td>
+                        <td>{{ request.employee_name }}</td>
+                        <td>{{ request.product_name }}</td>
+                        <td>{{ request.reason }}</td>
+                        <td>
+                            {% if request.approved_by_department_head and request.approved_by_security_head %}
+                                <span class="badge badge-success">Approved</span>
+                            {% else %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button onclick="viewMore(this)"><i class="fas fa-plus"></i> View More</button>
+                            {% if request.id %}
+                            <a href="{% url 'print_request' id=request.id %}" class="btn btn-primary">Print</a>
+                            {% else %}
+                                <button disabled><i class="fas fa-print"></i> Print (Invalid ID)</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="view-more">
+                        <td colspan="7">
+                            <p><strong>Sub Department:</strong> {{ request.sub_department }}</p>
+                            <p><strong>Quantity:</strong> {{ request.product_quantity }}</p>
+                            <p><strong>Serial Number:</strong> {{ request.product_serial_nos }}</p>
+                            <p><strong>Description:</strong> {{ request.product_description }}</p>
+                            <p><strong>Contact Info:</strong> {{ request.contact_info }}</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
         <div class="footer">
-            <a href="{% url 'dashboard' %}">Back to Dashboard</a>
         </div>
-    </div>
+    </main>
+
+    <script>
+    function viewMore(button) {
+        var row = button.parentNode.parentNode;
+        var nextRow = row.nextElementSibling;
+        if (nextRow && nextRow.classList.contains('view-more')) {
+            nextRow.style.display = nextRow.style.display === 'table-row' ? 'none' : 'table-row';
+        }
+    }
+    </script>
 </body>
 </html>
-
-

@@ -1,0 +1,283 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light grey background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+.header-container {
+    background-color: #eaac37; /* Yellow header */
+    color: #ffffff; /* White text */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo-container {
+    flex: 1;
+}
+
+.logo {
+    max-height: 50px;
+}
+
+.role-info {
+    flex: 2;
+    text-align: center;
+}
+
+.buttons {
+    flex: 1;
+    text-align: right;
+}
+
+.btn-log-out {
+    background-color: #f6761b; /* Orange button */
+    color: #ffffff; /* White text */
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.btn-log-out:hover {
+    background-color: #d65a1e; /* Darker orange on hover */
+}
+
+/* Main content styles */
+#main-container {
+    margin: 20px;
+}
+
+.header {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333333; /* Dark text for headers */
+}
+
+h2 {
+    color: #666666; /* Medium text for subheaders */
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #dddddd; /* Light grey border */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #eaac37; /* Yellow header for table */
+    color: #ffffff; /* White text */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row color */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}
+
+button {
+    background-color: #f6761b; /* Orange button */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #d65a1e; /* Darker orange on hover */
+}
+
+.view-more {
+    display: none;
+}
+
+.footer {
+    margin-top: 20px;
+}
+
+.footer a {
+    color: #eaac37; /* Yellow link color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* approval page styles */
+
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Light grey background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+.header-container {
+    background-color: #ffffff; /* Yellow header */
+    color: #ffffff; /* White text */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 2px solid #f6761b;
+}
+
+.logo-container {
+    flex: 1;
+}
+
+.logo {
+    max-height: 70px;
+}
+
+.role-info {
+    flex: 2;
+    text-align: center;
+}
+
+.buttons {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Space between buttons */
+}
+
+.btn-log-out {
+    background-color: #f6761b; /* Orange button */
+    color: #ffffff; /* White text */
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.btn-log-out:hover {
+    background-color: #d65a1e; /* Darker orange on hover */
+}
+
+/* Main content styles */
+#main-container {
+    margin: 20px;
+}
+
+.header {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #000000; /* Dark text for headers */
+}
+
+h2 {
+    color: #000000; /* Medium text for subheaders */
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #dddddd; /* Light grey border */
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #eba627; /* Yellow header for table */
+    color: #000000; /* Black text */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row color */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}
+
+a {
+    background-color: #f6761b; /* Orange link color */
+    color: #ffffff; /* White text */
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+a:hover {
+    background-color: #d65a1e; /* Darker orange on hover */
+}
+
+/* Footer styles */
+.footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Space between links */
+}
+
+.footer a {
+    color: #000000; /* Black link color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+

@@ -1,211 +1,240 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-
-/* General Styles for Both Pages */
-
-/* Body */
+/* Set the font family for the entire body */
 body {
-  font-family: Arial, sans-serif;
-  background-image: url('../Images/Material.jpg'); /* Background image for the header */
-  background-size: cover; /* Stretch image to cover the entire screen */
-  background-position: center; /* Center the image horizontally and vertically */
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Align content to the top */
-  align-items: center; /* Center content horizontally */
-  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Container */
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Align items to the top */
-  align-items: center; /* Center content horizontally */
-  max-width: 1000px;
-  padding: 20px;
-  margin-top: 20px; /* Add top margin */
-}
-
-/* Header container */
+/* Style for the header container */
 .header-container {
-  display: flex;
-  justify-content: center; /* Center the logo and title */
-  align-items: center; /* Vertically center the items */
-  position: relative; /* Ensure it can contain absolutely positioned elements */
-  width: 100%;
-  margin-bottom: 20px;
+  margin-top: 10px; /* Space above the header */
+  background-image: url('../Images/Header_form.jpg'); /* Background image for the header */
+  background-size: contain; /* Contain the image within the container */
+  background-position: center; /* Center the image */
+  border: 1px solid rgb(211, 133, 64); /* Border color */
+  border-radius: 0px;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  width: calc(100% + 30px); /* Increase the width by 40px (20px on each side) */
+  margin-left: -15px; /* Offset the left margin to balance the width increase */
+  margin-right:5px; /* Offset the right margin to balance the width increase */
 }
 
-/* Header image style */
-.header-container img {
-  max-width: 300px;
-  height: auto;
-  margin-right: 20px;
-}
-
-/* Heading styles */
-.header-container h1 {
-  margin: 0;
-  color: #fa713a;
-  text-align: center; /* Center the h1 text */
-  flex-grow: 1; /* Allow the h1 to grow and take up remaining space */
-}
-
-.header-container h3 {
-  margin: 0;
-  color: #000000;
-  text-align: center;
-}
-
-/* CSS for index.html and role selection */
-#role {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.forgot-password {
-  display: block;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
-  color: #007bff;
-  text-decoration: none;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
-}
-
-/* Styles Specific to the Login Page */
-
-/* Login container */
-.login-container {
-  width: 50%; /* Set the width of the login container */
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #cffffad3;
-  text-align: center;
-  margin: 0 auto; /* Center login box horizontally (optional) */
-}
-
-/* Input fields and labels */
-.input-group {
-  margin-bottom: 30px;
-  text-align: left; /* Align labels to the left */
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #000000;
-  font-weight: bold; /* Make label text bold */
-}
-
-.input-group input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* Login button style */
-.btn-login {
-  width: 40%;
-  padding: 10px;
-  background-color: #ff9800;
-  color: #000000;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.btn-login:hover {
-  background-color: #f57c00;
-}
-
-/* Styles Specific to the Dashboard Page */
-
-/* Styling dashboard container */
-.dashboard-container {
-  text-align: center; /* Center align dashboard content */
-  margin-top: 20px; /* Add spacing above dashboard container */
-}
-
-/* Dashboard buttons container */
-.button-container {
-  display: flex; /* Flexbox layout */
-  justify-content: center; /* Center align buttons */
-  flex-wrap: wrap; /* Wrap buttons to the next line if needed */
-}
-
-/* Dashboard button style */
-.btn-dashboard {
-  text-decoration: none; /* Remove underline */
-  display: inline-block; /* Ensure the button styles are applied correctly */
-  text-align: center; /* Center the text inside the button */
-  width: 200px; /* Set width for buttons */
-  padding: 20px; /* Padding inside buttons */
-  background-color: #ffdd00; /* Yellow color */
-  color: #000000; /* Black text color */
-  border: none; /* No border */
-  border-radius: 40px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Smooth background color transition */
-  margin: 10px; /* Margin around buttons */
-}
-
-.btn-dashboard:hover {
-  background-color: #ffa200; /* Darker yellow color on hover */
-}
-
-/* Log Out button style */
-.btn-log-out {
-  margin-top: 20px; /* Spacing above button */
-  padding: 10px; /* Padding inside button */
-  background-color: #ffdd00; /* Yellow color */
-  color: #000000; /* Black text color */
-  border: none; /* No border */
+.btn-back {
+  display: inline-block; /* Display as an inline block element */
+  padding: 5px 10px; /* Adjust padding as needed */
+  background-color: #f6761b; /* Light gray background */
+  border: 1px solid #000000; /* Light gray border */
   border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Indicate clickable action */
+  text-decoration: none; /* Remove underline from the link */
+  font-size: px; /* Adjust font size as needed */
+  color: #000000; /* Dark gray text color */
+}
+
+
+/* Style for logo and title containers */
+.logo-container, .title-container {
+  background-color: rgb(255, 255, 255); /* Background color */
+  width: 100%; /* Full width */
+  max-width: 300px; /* Maximum width */
+  height: 114px; /* Fixed height */
+  padding: 10px; /* Padding inside the containers */
+  border-radius: 0px; /* Rounded corners */
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
+}
+
+/* Style for the logo image */
+.logo-container img {
+  max-height: 100%; /* Maximum height of the image */
+  width: auto; /* Maintain aspect ratio */
+  border-radius: 2px;
+}
+
+/* Style for the title text */
+.title-container h1 {
+  color: rgb(0, 0, 0); /* Text color */
+  margin: 0; /* Remove default margin */
+  text-align: center; /* Center the text */
+  font-size: 25px; /* Font size */
+  border-radius: 2px;
+}
+
+/* Primary button styling */
+.btn-primary {
+  position:static;
+  background-color: orange;
+  border-color: orange; 
+  width:fit-content;
+  border-radius: 2px;
+}
+
+
+/* Primary button styling */
+.btn-delete {
+  background-color: rgb(248, 51, 51); /* Background color */
+  border-color: orange; /* Border color */
+  border-radius: 2px;
+  width: fit-content; 
+}
+
+
+
+/* Container for buttons */
+.btn-container {
+  text-align: center; 
+  /* Center-align the content */
+  margin-top: 10px; 
+  /* Space above the container */
+  border-radius: 2px;
+}
+
+/* Footer styling */
+.new-footer {
+  text-align: center; /* Center-align the content */
+  font-size: x-large; /* Font size */
+}
+
+/* Footer paragraph styling */
+.new-footer p {
+  font-size: large; /* Font size */
+  text-align: center; /* Center-align the content */
+  padding-top: 10px; /* Padding above the paragraph */
+  color: rgb(0, 0, 0); /* Text color */
+}
+
+/* Form group styling */
+.form-group {
+  background-color: rgba(255, 243, 227, 0.907); /* Background color */
+  padding: 10px; 
+  /* Padding inside the container */
+  margin-top: 10px;
+   /* Space above the container */
+  width: 100%;
+   /* Fit width to the content */
+  /* border: 1px solid orange ; */ /* Optional border, currently commented out */
+}
+
+/* Basic styling for form controls (input, textarea, etc.) */
+.form-control {
+  width: 100%; /* Full width */
+  padding: 10px; /* Padding inside the control */
+  margin-bottom: 15px; /* Space below the control */
+  border: 1px solid #ced4da; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  box-sizing: border-box; 
+  font-size: 16px; /* Font size */
+}
+
+/* Styling for form labels */
+label {
+  display: block; /* Display as a block element */
+  margin-bottom: 5px; /* Space below the label */
+  font-weight: bold; /* Bold text */
+  font-size: 14px; /* Font size */
+}
+
+/* Styling for textareas */
+textarea.form-control {
+  resize: vertical; /* Allow vertical resize only */
+  height: auto; /* Auto height */
+}
+
+/* Styling for small text (help text, etc.) */
+.form-text {
+  display: block; /* Display as a block element */
+  margin-top: -10px; /* Negative space above the text */
+  margin-bottom: 10px; /* Space below the text */
+  font-size: 12px; /* Font size */
+  color: #6c757d; /* Text color */
+}
+
+/* Basic button styling */
+.btn {
+  padding: 10px 20px; /* Padding inside the button */
+  font-size: 16px; /* Font size */
   cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Smooth background color transition */
+  border-radius: 4px; /* Rounded corners */
+  border: none; /* Remove border */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
 
-.btn-log-out:hover {
-  background-color: #f5c400; /* Darker yellow color on hover */
+
+/* Styling for error messages */
+.text-danger {
+  color: #dc3545; /* Text color */
+  font-size: 14px; /* Font size */
+  margin-top: 10px; /* Space above the text */
+  border-radius: 2px;
+  width: fit-content;
 }
 
-/* Profile Setup button style */
-.header-container {
-  position: relative; /* Ensure absolute positioning for profile-container */
+/* Styling for the image preview */
+#previewImage {
+  display: block; /* Display as a block element */
+  margin: 10px auto; /* Center the image with margin */
+  max-width: 20%; /* Maximum width */
 }
 
-.profile-container {
-  position: absolute;
-  top: 70px;
-  right: 50px;
+/* Styling for the delete image icon */
+#deleteImage {
+  cursor: pointer; /* Pointer cursor on hover */
+  position: absolute; /* Position the icon absolutely */
+  top: 0; /* Position at the top */
+  right: 0; /* Position at the right */
+  font-size: 24px; /* Font size */
+  color: rgb(217, 50, 50); /* Text color */
 }
 
-.btn-profile-setup {
-  display: flex; /* Use flexbox for alignment */
-  justify-content: center; /* Center the icon horizontally */
-  align-items: center; /* Center the icon vertically */
-  width: 40px; /* Set width for the button */
-  height: 70px; /* Set height for the button */
-  text-decoration: none; /* Remove underline */
-  cursor: pointer;
+
+.pass-selection {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  /* height:auto; */
 }
 
-.profile-icon {
-  width: 35px; /* Set width for the icon */
-  height: 35px; /* Set height for the icon */
+.pass-button {
+  font-size: 2.0rem; /* Increase font size */
+  padding: 10px 30px;     /* Increase padding */
+  margin: 10px; /* Add some margin between buttons */
+  text-align: left;
+  /* height: fit-content; */
+  /* border-radius: 10px; */
 }
+
+
+.pass-button:hover {
+  background-color:  rgba(198, 221, 219, 0.907); /* Background color on hover */
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  background: #f7f7f7;
+  border-radius: 10px;
+}
+
+#addProductBtn {
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: rgb(0, 162, 255);
+  border: 1px solid #ced4da;
+  transition: background-color 0.3s ease;
+}
+
+
+/* Hover state for add product button */
+#addProductBtn:hover{
+  background-color: #0056b3;
+}
+

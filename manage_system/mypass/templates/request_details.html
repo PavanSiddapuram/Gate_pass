@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Details | Gate Pass Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/details_styles.css' %}">
+</head>
+<body>
+    <div class="details-container">
+        <h1>Gate Pass Request Details</h1>
+        <div class="request-info">
+            <p><strong>ID:</strong> {{ gate_pass.id }}</p>
+            <p><strong>Employee:</strong> {{ gate_pass.employee_name }}</p>
+            <p><strong>Material:</strong> {{ gate_pass.product_name }}</p>
+            <p><strong>Reason:</strong> {{ gate_pass.reason }}</p>
+            <p><strong>Status:</strong>
+                {% if gate_pass.approved_by_department_head and gate_pass.approved_by_security_head %}
+                    <span class="badge badge-success">Approved</span>
+                {% else %}
+                    <span class="badge badge-warning">Pending</span>
+                {% endif %}
+            </p>
+            <p><strong>Sub Department:</strong> {{ gate_pass.sub_department }}</p>
+            <p><strong>Quantity:</strong> {{ gate_pass.product_quantity }}</p>
+            <p><strong>Serial Number:</strong> {{ gate_pass.product_serial_nos }}</p>
+            <p><strong>Description:</strong> {{ gate_pass.product_description }}</p>
+            <p><strong>Contact Info:</strong> {{ gate_pass.contact_info }}</p>
+        </div>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</body>
+</html>

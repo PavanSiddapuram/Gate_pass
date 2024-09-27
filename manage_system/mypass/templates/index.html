@@ -1,89 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gate Pass Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate Pass Management System - Login</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'CSS/index_styles.css' %}">
-    <style>
-        .input-group {
-            position: relative;
-        }
-        .toggle-password {
-            position: absolute;
-            top: 30%;
-            right: 10px;
-            transform: translateY(50%);
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div id="main-container">
-        <div class="container" id="login-container">
+    <div id="main-container" role="main">
+        <div id="background-image" aria-hidden="true"></div>
+        <div id="login-container">
             <div class="header-container">
-                <img src="https://npf-unlayer.s3.ap-south-1.amazonaws.com/unlayer/images/1650016890851-footer_mahe-bengaluru-logo.png" width="300">
-                <h1>Gate Pass Management System</h1>
-                <h3>Simple, Quick & Efficient.</h3>
+                <h1>GATE PASS MANAGEMENT SYSTEM</h1>
             </div>
             <div class="login-container">
-                <h2>Login</h2>
-                <form id="loginForm" method="post" action="{% url 'index' %}" onsubmit="return validateForm()">
+                <!-- Display messages -->
+                {% if messages %}
+                    <div>
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <form method="post" action="{% url 'login' %}">
                     {% csrf_token %}
                     <div class="input-group">
-                        <label for="username">Username:</label>
+                        <label for="username" aria-label="Username">Username:</label>
                         <input type="text" id="username" name="username" required>
                     </div>
                     <div class="input-group">
-                        <label for="password">Password:</label>
+                        <label for="password" aria-label="Password">Password:</label>
                         <input type="password" id="password" name="password" required>
-                        <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                        <span class="toggle-password" onclick="togglePassword()">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </span>
                     </div>
-                    <button type="submit" class="btn-login"><h3>Login</h3></button>
+                    <button type="submit" class="btn-login" role="submit">
+                        <h3>Login</h3>
+                    </button>
                 </form>
-                <a href="{% url 'forgot_password' %}" class="forgot-password">Forgot Password?</a>
             </div>
         </div>
     </div>
 
     <script>
-        function validateForm() {
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-
-            // Simulating a small user database
-            var users = [
-                { username: "emp_user1", password: "emp_pass1", role: "employee" },
-                { username: "emp_user2", password: "emp_pass2", role: "employee" },
-                { username: "dept_head1", password: "dept_pass1", role: "department_head" },
-                { username: "dept_head2", password: "dept_pass2", role: "department_head" },
-                { username: "security_head1", password: "security_pass1", role: "security_head" },
-                { username: "security_head2", password: "security_pass2", role: "security_head" }
-            ];
-
-            // Find the user based on username and password
-            var user = users.find(u => u.username === username && u.password === password);
-
-            // Redirect based on role
-            if (user) {
-                window.location.href = "{% url 'dashboard' %}?role=" + user.role; // Redirect to dashboard with role parameter
-                return false; // Prevent form submission
-            } else {
-                alert("Invalid username or password.");
-                return false; // Prevent form submission
-            }
-        }
-
         function togglePassword() {
             var passwordField = document.getElementById("password");
-            var toggleIcon = document.querySelector(".toggle-password");
+            var toggleIcon = document.querySelector(".toggle-password i");
             if (passwordField.type === "password") {
                 passwordField.type = "text";
-                toggleIcon.textContent = "🙈"; // Change icon to a different one when showing password
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
             } else {
                 passwordField.type = "password";
-                toggleIcon.textContent = "👁️"; // Change icon back to the original when hiding password
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
         }
     </script>
 </body>
 </html>
+

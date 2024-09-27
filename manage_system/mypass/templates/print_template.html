@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Gate Pass</title>
+    <style>
+        /* Add styles specifically for printing */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .print-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="print-container">
+        <h1>Gate Pass Details</h1>
+        <div class="details">
+            <p><strong>ID:</strong> {{ gate_pass.id }}</p>
+            <p><strong>Employee:</strong> {{ gate_pass.employee_name }}</p>
+            <p><strong>Material:</strong> {{ gate_pass.product_name }}</p>
+            <p><strong>Reason:</strong> {{ gate_pass.reason }}</p>
+            <p><strong>Status:</strong> {{ gate_pass.return_status }}</p>
+            <p><strong>Return Date:</strong> {{ gate_pass.return_date }}</p>
+            <p><strong>Sub Department:</strong> {{ gate_pass.sub_department }}</p>
+            <p><strong>Quantity:</strong> {{ gate_pass.product_quantity }}</p>
+            <p><strong>Serial Number:</strong> {{ gate_pass.product_serial_nos }}</p>
+            <p><strong>Description:</strong> {{ gate_pass.product_description }}</p>
+            <p><strong>Contact Info:</strong> {{ gate_pass.contact_info }}</p>
+        </div>
+    </div>
+</body>
+</html>

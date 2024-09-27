@@ -3,6 +3,8 @@
 from django.urls import path
 from . import views
 
+
+
 urlpatterns = [
     path('', views.index_view, name='index'),
     path('login/', views.login_view, name='login'),
@@ -12,5 +14,11 @@ urlpatterns = [
     path('nonreturnable_form/', views.nonreturnable_form_view, name='nonreturnable_form'),
     path('approval/', views.approval_view, name='approval'),
     path('activity/', views.activity_view, name='activity'),
-    path('forgot_password/', views.forgot_view, name='forgot_password'),
+    path('print_request/<int:id>/', views.print_request_view, name='print_request'),
+    path('request/<int:pk>/', views.request_details, name='request_details'),
+    path('view_details/<int:gate_pass_id>/', views.view_details_view, name='view_details'),  # Added URL pattern
+
 ]
+
+
+
