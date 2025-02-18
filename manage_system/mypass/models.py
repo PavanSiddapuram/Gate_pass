@@ -13,7 +13,7 @@ class GatePass(models.Model):
     product_image = models.ImageField(upload_to='product_images/', blank=True, null=True)
     reason = models.TextField()
     expected_return_date = models.DateField(null=True, blank=True)
-    employee_name = models.CharField(max_length=100)
+    employee_name = models.CharField(max_length=100)    
     employee_id = models.CharField(max_length=20)
     designation = models.CharField(max_length=100)
     contact_info = models.CharField(max_length=100)
@@ -22,10 +22,12 @@ class GatePass(models.Model):
 
     # Approval-related fields
     approved_by_department_head = models.BooleanField(default=False)
+    department_head_name = models.CharField(max_length=100, blank=True, null=True)  
     department_head_action_date = models.DateTimeField(null=True, blank=True)
     department_head_comments = models.TextField(blank=True, null=True)
 
     approved_by_security_head = models.BooleanField(default=False)
+    security_head_name = models.CharField(max_length=100, blank=True, null=True)  
     security_head_action_date = models.DateTimeField(null=True, blank=True)
     security_head_comments = models.TextField(blank=True, null=True)
 
@@ -59,6 +61,9 @@ class UserProfile(models.Model):
     role = models.CharField(max_length=50, choices=ROLE_CHOICES)
     institution = models.CharField(max_length=100, blank=True, null=True)  # Optional
     sub_department = models.CharField(max_length=100, blank=True, null=True)  # Optional
-
+    department_head_name = models.CharField(max_length=100, blank=True, null=True)  # Optional for storing head's name
+    security_head_name = models.CharField(max_length=100, blank=True, null=True)
     def __str__(self):
         return self.user.username
+
+

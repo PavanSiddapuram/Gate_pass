@@ -1,142 +1,200 @@
-document.addEventListener('DOMContentLoaded', function () {
-    function generateGatePassId() {
-        return Math.floor(Math.random() * 900000) + 100000;
-    }
-
-    function setCurrentDateTime(dateTimeField) {
-        var currentDate = new Date();
-        var year = currentDate.getFullYear();
-        var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-        var day = ('0' + currentDate.getDate()).slice(-2);
-        var hours = ('0' + currentDate.getHours()).slice(-2);
-        var minutes = ('0' + currentDate.getMinutes()).slice(-2);
-        var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-        dateTimeField.value = formattedDateTime;
-    }
-
-    var storedGatePassId = sessionStorage.getItem('gatePassId');
-    if (!storedGatePassId) {
-        var newGatePassId = "MAHE-" + generateGatePassId();
-        sessionStorage.setItem('gatePassId', newGatePassId);
-        storedGatePassId = newGatePassId;
-    }
-
-    document.getElementById('gatePassId').value = storedGatePassId;
-    setCurrentDateTime(document.getElementById("dateTime"));
-
-    function populateProductNames(category, productNameElement, productNameTextElement) {
-        productNameElement.innerHTML = '<option value="">Select</option>';
-
-        if (category in materials) {
-            materials[category].forEach(item => {
-                const option = document.createElement('option');
-                option.value = item;
-                option.textContent = item;
-                productNameElement.appendChild(option);
-            });
-
-            productNameElement.style.display = 'block';
-            productNameElement.required = true;
-            productNameTextElement.style.display = 'none';
-            productNameTextElement.required = false;
-        } else {
-            productNameElement.style.display = 'none';
-            productNameElement.required = false;
-            productNameTextElement.style.display = 'block';
-            productNameTextElement.required = true;
-        }
-    }
-
-    document.getElementById('sub_department').addEventListener('change', function () {
-        populateProductNames(this.value, document.getElementById('product_name'), document.getElementById('productNameText'));
-    });
-
-    document.getElementById('product_name').addEventListener('change', function () {
-        const otherProductName = document.getElementById('otherProductName');
-        const otherProductNameInput = document.getElementById('otherProductNameInput');
-
-        if (this.value === 'Other') {
-            otherProductName.style.display = 'block';
-            otherProductNameInput.required = true;
-        } else {
-            otherProductName.style.display = 'none';
-            otherProductNameInput.required = false;
-        }
-    });
-
-    document.getElementById('validateSerialsBtn').addEventListener('click', function () {
-        const serialNumbers = document.getElementById('product_serial_nos').value.split(/[,\n]/).map(s => s.trim()).filter(s => s !== '');
-        const quantity = parseInt(document.getElementById('product_quantity').value, 10);
-
-        const serialsError = document.getElementById('serialsError');
-        const serialsDuplicateError = document.getElementById('serialsDuplicateError');
-
-        if (serialNumbers.length !== quantity) {
-            serialsError.textContent = `Expected ${quantity} serial numbers, but found ${serialNumbers.length}.`;
-            serialsError.style.display = 'block';
-        } else {
-            serialsError.style.display = 'none';
-        }
-
-        const uniqueSerials = new Set(serialNumbers);
-        if (uniqueSerials.size !== serialNumbers.length) {
-            serialsDuplicateError.textContent = 'Duplicate serial numbers found.';
-            serialsDuplicateError.style.display = 'block';
-        } else {
-            serialsDuplicateError.style.display = 'none';
-        }
-    });
-
-    document.getElementById('productImage').addEventListener('change', function () {
-        const file = this.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const previewImage = document.getElementById('previewImage');
-            const deleteImage = document.getElementById('deleteImage');
-
-            previewImage.src = e.target.result;
-            previewImage.style.display = 'block';
-            deleteImage.style.display = 'inline';
-        };
-
-        reader.readAsDataURL(file);
-    });
-
-    document.getElementById('deleteImage').addEventListener('click', function () {
-        document.getElementById('productImage').value = '';
-        document.getElementById('previewImage').src = '#';
-        document.getElementById('previewImage').style.display = 'none';
-        this.style.display = 'none';
-    });
-
-    const expectedReturnDate = document.getElementById('expectedReturnDate');
-    if (expectedReturnDate) {
-        const currentDate = new Date();
-        const nextWeek = new Date(currentDate.setDate(currentDate.getDate() + 7));
-        expectedReturnDate.value = nextWeek.toISOString().slice(0, 10);
-
-        expectedReturnDate.addEventListener('change', function () {
-            const selectedDate = new Date(this.value);
-            const today = new Date();
-
-            if (selectedDate < today) {
-                alert("Expected return date must be in the future.");
-                this.value = nextWeek.toISOString().slice(0, 10);
-            }
-        });
-    }
+// Form initialization and event handlers
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFormData();
+    setupEventListeners();
+    setupInitialProductEntry();
 });
 
-// Materials data for dropdown population
-const materials = {
-    'IT': ['All in one Desktop', 'Laptop', 'HDMI Cable', 'Polycom Studio',
-        'Logitech Camera', 'Cisco IP Phone', 'Hard disk', 'Monitor', 'Keyboard/Mouse', 'Photo Copier',
-        'Web Camera', 'Laptop Charger', 'LAN Cable', 'Printer', 'Printer Cartridge', 'Camera', 'Live Streaming Device',
-        'Video Camera', 'Network Switch', 'Network Router', 'Headset', 'Cell Charger', 'Speakers', 'Tripod', 'Other'],
-    'General Services': ['Electrical', 'Plumbing', 'HVAC/Mechanical', 'Carpentry', 'Civil', 'Fire & Safety', 'Medical', 'Other'],
-    'HR': ['Employee Records', 'Forms', 'Documents', 'Other'],
-    'Finance': ['Invoices', 'Receipts', 'Bills', 'Other'],
-    'Marketing': ['Flyers', 'Brochures', 'Posters', 'Other']
+// Initialize form data
+const initializeFormData = () => {
+    // Generate and set gate pass ID
+    const gatePassId = sessionStorage.getItem('gatePassId') || 
+                      `MAHE-${(Math.floor(Math.random() * 900000) + 100000)}`;
+    sessionStorage.setItem('gatePassId', gatePassId);
+    document.getElementById('gatePassId').value = gatePassId;
+
+    // Set current date/time
+    const now = new Date();
+    document.getElementById('dateTime').value = now.toISOString().slice(0, 16);
+
+    // Set default return date (7 days from now)
+    const nextWeek = new Date(now.setDate(now.getDate() + 7));
+    document.getElementById('expectedReturnDate').value = nextWeek.toISOString().slice(0, 10);
 };
 
+// Setup all event listeners
+const setupEventListeners = () => {
+    // Add product button
+    document.getElementById('addProductBtn').addEventListener('click', handleAddProduct);
+
+    // Form type change
+    document.getElementById('formType').addEventListener('change', handleFormTypeChange);
+
+    // Form submission
+    document.getElementById('gatePassForm').addEventListener('submit', handleFormSubmit);
+
+    // Image preview
+    setupImagePreview();
+};
+
+// Product entry handlers
+const handleAddProduct = () => {
+    const container = document.getElementById('product_entries');
+    const template = container.querySelector('.product-entry').cloneNode(true);
+    
+    // Reset values
+    template.querySelectorAll('input, select, textarea').forEach(el => el.value = '');
+    
+    // Add delete button
+    const deleteButton = createDeleteButton();
+    template.querySelector('.card-body').appendChild(deleteButton);
+    
+    // Update indices
+    updateProductIndices(template, container.children.length);
+    
+    container.appendChild(template);
+};
+
+const createDeleteButton = () => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-danger btn-sm position-absolute';
+    btn.style.cssText = 'right: 10px; top: 10px;';
+    btn.innerHTML = '×';
+    btn.onclick = (e) => e.target.closest('.product-entry').remove();
+    return btn;
+};
+
+const updateProductIndices = (template, index) => {
+    template.querySelectorAll('[name]').forEach(el => {
+        const name = el.getAttribute('name');
+        if (name && name.includes('[]')) {
+            el.setAttribute('name', name.replace('[]', `[${index}]`));
+        }
+    });
+};
+
+// Form type change handler
+const handleFormTypeChange = () => {
+    const formType = document.getElementById('formType').value;
+    const returnDateGroup = document.getElementById('expectedReturnDate').closest('.form-group');
+    const returnDateInput = document.getElementById('expectedReturnDate');
+
+    returnDateGroup.style.display = formType === 'returnable' ? 'block' : 'none';
+    returnDateInput.disabled = formType !== 'returnable';
+};
+
+// Image preview handling
+const setupImagePreview = () => {
+    const imageInput = document.getElementById('productImage');
+    const preview = document.getElementById('previewImage');
+    const deleteBtn = document.getElementById('deleteImage');
+    const container = document.getElementById('previewImageContainer');
+
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                container.classList.add('image-preview-wrapper');
+                deleteBtn.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    deleteBtn.addEventListener('click', () => {
+        imageInput.value = '';
+        preview.src = '#';
+        preview.style.display = 'none';
+        container.classList.remove('image-preview-wrapper');
+        deleteBtn.style.display = 'none';
+    });
+};
+
+// Form validation
+const validateForm = () => {
+    let isValid = true;
+    const errors = [];
+
+    // Required fields validation
+    document.querySelectorAll('[required]').forEach(field => {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('is-invalid');
+            errors.push(`${field.getAttribute('name')} is required`);
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+
+    // Product entries validation
+    document.querySelectorAll('.product-entry').forEach((entry, index) => {
+        const quantity = entry.querySelector('.product-quantity').value;
+        const name = entry.querySelector('.material-name').value;
+
+        if (!quantity || !name) {
+            isValid = false;
+            errors.push(`Product ${index + 1} is incomplete`);
+        }
+    });
+
+    // Pattern validation
+    const patterns = {
+        'employee_name': /^[a-zA-Z\s]+$/,
+        'employee_id': /^[0-9a-zA-Z]+$/,
+        'designation': /^[a-zA-Z\s]+$/,
+        'contact_info': /^\d{10}$/
+    };
+
+    Object.entries(patterns).forEach(([fieldName, pattern]) => {
+        const field = document.querySelector(`[name="${fieldName}"]`);
+        if (field && !pattern.test(field.value)) {
+            isValid = false;
+            field.classList.add('is-invalid');
+            errors.push(`Invalid ${fieldName.replace('_', ' ')}`);
+        }
+    });
+
+
+    // Display errors if any
+    if (!isValid) {
+        showErrors(errors);
+    }
+
+    return isValid;
+};
+
+// Error display
+const showErrors = (errors) => {
+    const errorContainer = document.createElement('div');
+    errorContainer.className = 'alert alert-danger mt-3';
+    errorContainer.innerHTML = `
+        <h5>Please correct the following errors:</h5>
+        <ul>
+            ${errors.map(error => `<li>${error}</li>`).join('')}
+        </ul>
+    `;
+
+    const form = document.getElementById('gatePassForm');
+    const existingError = form.querySelector('.alert-danger');
+    if (existingError) {
+        existingError.remove();
+    }
+    form.insertBefore(errorContainer, form.firstChild);
+};
+
+// Form submission handler
+const handleFormSubmit = (event) => {
+    event.preventDefault();
+    
+    if (validateForm()) {
+        const submitBtn = document.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        
+        // Submit the form
+        event.target.submit();
+    }
+};

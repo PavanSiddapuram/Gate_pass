@@ -1,5 +1,208 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Gate Pass</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 20px;
+              background-color: #ffffff;
+              color: #333;
+          }
+          
+          .header {
+              text-align: center;
+              margin-bottom: 30px;
+          }
+
+          .header img {
+              width: 250px; /* Adjust based on your logo size */
+              height: auto;
+              object-fit: contain;
+              margin-bottom: 20px;
+          }
+
+          .header h1 {
+              font-size: 28px;
+              margin: 0;
+              color: #f39f04;
+          }
+
+          .content {
+              margin-top: 20px;
+          }
+
+          .content h2 {
+              font-size: 20px;
+              border-bottom: 1px solid #f39f04;
+              padding-bottom: 10px;
+              margin-bottom: 20px;
+              color: #333;
+          }
+
+          .content table {
+              width: 100%;
+              border-collapse: collapse;
+          }
+
+          .content table th, .content table td {
+              padding: 12px;
+              border: 1px solid #ddd;
+              text-align: left;
+          }
+
+          .content table th {
+              background-color: #f2f2f2;
+              font-weight: bold;
+          }
+
+          .content table td {
+              vertical-align: top;
+          }
+
+          .footer {
+              margin-top: 40px;
+              text-align: center;
+          }
+
+          .footer .approval-marks {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 30px;
+          }
+
+          .footer .approval-mark {
+              text-align: center;
+              flex: 1;
+          }
+
+          .footer button {
+              padding: 15px 30px;
+              background-color: #f39f04;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+          }
+
+          .footer button:hover {
+              background-color: #f8c303;
+          }
+
+          .status-icon {
+              display: inline-block;
+              padding: 5px;
+              font-size: 18px;
+          }
+
+          .approved-icon {
+              color: green;
+          }
+
+          .not-approved-icon {
+              color: red;
+          }
+
+          .approval-name {
+              display: block;
+              font-size: 14px;
+              margin-top: 5px;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <div class="header">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ15bM_FetIoDNy2CwT8Xr1wWP7YAMMtRjjwQ&s" alt="Logo">
+              <hr style="border: 1px solid #f39f04; width: 50%; margin: 20px auto;">
+              <h2>MATERIAL GATE PASS (RETURNABLE/ NON RETURNABLE)</h2>
+          </div>
+          <div class="content">
+              <table>
+                  <tr>
+                      <th>S No.</th>
+                      <td>{{ gate_pass.id }}</td>
+                  </tr>
+                  <tr>
+                      <th>Pass ID:</th>
+                      <td>{{ gate_pass.pass_id }}</td>
+                  </tr>
+                  <tr>
+                      <th>Employee ID:</th>
+                      <td>{{ gate_pass.employeeId }}</td>
+                  </tr>
+                  <tr>
+                      <th>Employee Name:</th>
+                      <td>{{ gate_pass.employee_name }}</td>
+                  </tr>
+                  <tr>
+                      <th>Sub Department:</th>
+                      <td>{{ gate_pass.sub_department }}</td>
+                  </tr>
+                  <tr>
+                      <th>Material:</th>
+                      <td>{{ gate_pass.product_name }}</td>
+                  </tr>
+                  <tr>
+                      <th>Quantity:</th>
+                      <td>{{ gate_pass.product_quantity }}</td>
+                  </tr>
+                  <tr>
+                      <th>Serial Numbers:</th>
+                      <td>{{ gate_pass.product_serial_nos }}</td>
+                  </tr>
+                  <tr>
+                      <th>Description:</th>
+                      <td>{{ gate_pass.product_description }}</td>
+                  </tr>
+                  <tr>
+                      <th>Reason:</th>
+                      <td>{{ gate_pass.reason }}</td>
+                  </tr>
+                  <tr>
+                      <th>Expected Return Date:</th>
+                      <td>{{ gate_pass.expected_return_date }}</td>
+                  </tr>
+                  <tr>
+                      <th>Phone:</th>
+                      <td>{{ gate_pass.contact_info }}</td>
+                  </tr>
+              </table>
+          </div>
+          <div class="footer">
+              <div class="approval-marks">
+                  <div class="approval-mark">
+                      <p>Department Head Approval</p>
+                      <span class="status-icon {% if gate_pass.approved_by_department_head %}approved-icon{% else %}not-approved-icon{% endif %}">{% if gate_pass.approved_by_department_head %}✔ (Approved){% else %}✘{% endif %}</span>
+                      {% if gate_pass.approved_by_department_head %}
+                          <span class="approval-name">{{ gate_pass.department_head_name }}</span>
+                      {% endif %}
+                  </div>
+                  <div class="approval-mark">
+                      <p>Security Approval</p>
+                      <span class="status-icon {% if gate_pass.approved_by_security_head %}approved-icon{% else %}not-approved-icon{% endif %}">{% if gate_pass.approved_by_security_head %}✔ (Approved) {% else %}✘{% endif %}</span>
+                      {% if gate_pass.approved_by_security_head %}
+                          <span class="approval-name">{{ gate_pass.security_head_name }}</span>
+                      {% endif %}
+                  </div>
+              </div>
+              <button onclick="window.print()">Print</button>
+          </div>
+      </div>
+  </body>
+  </html>
+
+
+
+
+
+
+  <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,14 +215,20 @@
             background-color: #ffffff;
             color: #333;
         }
-        
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
 
         .header img {
-            width: 250px; /* Adjust based on your logo size */
+            width: 250px;
             height: auto;
             object-fit: contain;
             margin-bottom: 20px;
@@ -31,21 +240,47 @@
             color: #f39f04;
         }
 
+        .header h2 {
+            font-size: 20px;
+            margin: 0;
+            color: #333;
+        }
+
+        .header p {
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
         .content {
             margin-top: 20px;
         }
 
-        .content h2 {
-            font-size: 20px;
-            border-bottom: 1px solid #f39f04;
-            padding-bottom: 10px;
+        .content h3 {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 10px 0;
+            border-top: 2px solid #f39f04;
+            border-bottom: 2px solid #f39f04;
+        }
+
+        .content .top-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             margin-bottom: 20px;
-            color: #333;
+        }
+
+        .content .top-section div {
+            margin-bottom: 10px;
         }
 
         .content table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         .content table th, .content table td {
@@ -59,8 +294,10 @@
             font-weight: bold;
         }
 
-        .content table td {
-            vertical-align: top;
+        .content .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .footer {
@@ -105,82 +342,96 @@
         .not-approved-icon {
             color: red;
         }
+
+        .approval-name {
+            display: block;
+            font-size: 14px;
+            margin-top: 5px;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ15bM_FetIoDNy2CwT8Xr1wWP7YAMMtRjjwQ&s" alt="Logo">
-            <hr style="border: 1px solid #f39f04; width: 50%; margin: 20px auto;">
-            <h2>MATERIAL GATE PASS (RETURNABLE/ NON RETURNABLE)</h2>
+            <img src="https://www.manipal.edu/content/dam/manipal/mu/mcops-manipal/Images_new/MAHE_Color.svg" alt="Manipal Logo">
+            <h1>MANIPAL ACADEMY OF HIGHER EDUCATION</h1>
+            <h2>BENGALURU CAMPUS</h2>
+            <p>(Institution of Eminence Deemed to be University)</p>
         </div>
+
+        <h3>MATERIAL GATE PASS NON RETURNABLE</h3>
+
         <div class="content">
-            <table>
-                <tr>
-                    <th>S No.</th>
-                    <td>{{ gate_pass.id }}</td>
-                </tr>
-                <tr>
-                    <th>Pass ID:</th>
-                    <td>{{ gate_pass.pass_id }}</td>
-                </tr>
-                <tr>
-                    <th>Employee ID:</th>
-                    <td>{{ gate_pass.employee_id }}</td>
-                </tr>
-                <tr>
-                    <th>Employee Name:</th>
-                    <td>{{ gate_pass.employee_name }}</td>
-                </tr>
-                <tr>
-                    <th>Sub Department:</th>
-                    <td>{{ gate_pass.sub_department }}</td>
-                </tr>
-                <tr>
-                    <th>Material:</th>
-                    <td>{{ gate_pass.product_name }}</td>
-                </tr>
-                <tr>
-                    <th>Quantity:</th>
-                    <td>{{ gate_pass.product_quantity }}</td>
-                </tr>
-                <tr>
-                    <th>Serial Numbers:</th>
-                    <td>{{ gate_pass.product_serial_nos }}</td>
-                </tr>
-                <tr>
-                    <th>Description:</th>
-                    <td>{{ gate_pass.product_description }}</td>
-                </tr>
-                <tr>
-                    <th>Reason:</th>
-                    <td>{{ gate_pass.reason }}</td>
-                </tr>
-                <tr>
-                    <th>Expected Return Date:</th>
-                    <td>{{ gate_pass.expected_return_date }}</td>
-                </tr>
-                <tr>
-                    <th>Phone:</th>
-                    <td>{{ gate_pass.contact_info }}</td>
-                </tr>
-                
-            </table>
-        </div>
-        <div class="footer">
-            <div class="approval-marks">
-                <div class="approval-mark">
-                    <p>Department Head Approval</p>
-                    <span class="status-icon {% if gate_pass.approved_by_department_head %}approved-icon{% else %}not-approved-icon{% endif %}">{% if gate_pass.approved_by_department_head %}✔{% else %}✘{% endif %}</span>
+            <!-- Top Section -->
+            <div class="top-section">
+                <div>
+                    <p>To,..................................................</p>
+                    <p>........................................................</p>
+                    <p>........................................................</p>
+                    <p>........................................................</p>
                 </div>
-                <div class="approval-mark">
-                    <p>Security Approval</p>
-                    <span class="status-icon {% if gate_pass.approved_by_security_head %}approved-icon{% else %}not-approved-icon{% endif %}">{% if gate_pass.approved_by_security_head %}✔{% else %}✘{% endif %}</span>
+                <div>
+                    <p>No. <span class="text-red-600">001</span></p>
+                    <p>Date: ........................</p>
+                    <p>(Vendor Copy)</p>
                 </div>
             </div>
-            <button onclick="window.print()">Print </button>
+
+            <!-- Middle Section -->
+            <div class="mb-4">
+                <p>The following materials may be allowed to be taken out by Mr ........................................................</p>
+                <p>of ........................................................</p>
+            </div>
+
+            <!-- Materials Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Description of Materials</th>
+                        <th>Qty.</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox"> As Replacement</label>
+                                <label><input type="checkbox"> For Approval</label>
+                                <label><input type="checkbox"> For Demonstration</label>
+                                <label><input type="checkbox"> Rejection</label>
+                                <label><input type="checkbox"> For Service</label>
+                                <label><input type="checkbox"> For Remark</label>
+                                <label><input type="checkbox"> For Job work</label>
+                                <label><input type="checkbox"> Any other reasons</label>
+                                <p>to be specified...............</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Signature Section -->
+            <div class="footer">
+                <div class="approval-marks">
+                    <div class="approval-mark">
+                        <p>Department Head Approval</p>
+                        <span class="status-icon approved-icon">✔ (Approved)</span>
+                        <span class="approval-name">John Doe</span>
+                    </div>
+                    <div class="approval-mark">
+                        <p>Security Approval</p>
+                        <span class="status-icon not-approved-icon">✘</span>
+                    </div>
+                </div>
+                <button onclick="window.print()">Print</button>
+            </div>
         </div>
     </div>
 </body>
 </html>
-8

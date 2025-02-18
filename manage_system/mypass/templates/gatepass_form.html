@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Gate Pass Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/form_styles.css' %}">
+</head>
+<body>
+    <!-- Back Button -->
+    <div class="back-button-container">
+        <a href="{% url 'dashboard' %}" class="btn-back">← Back</a>
+    </div>
+
+    <div class="container my-4">
+        <!-- Header with Logo -->
+        <div class="header-container mb-4">
+            <div class="logo-container">
+                <img src="https://manipal.edu/content/dam/manipal/mu/maheblr/logo/MAHE%20Bengaluru%20305x114.svg" 
+                     alt="Manipal Academy Logo" class="img-fluid">
+            </div>
+            <div class="title-container">
+                <h1>Material Gate Pass Form</h1>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                {% for field, errors in form.errors.items %}
+                    <li>{{ field }}: {{ errors|striptags }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" id="gatePassForm">
+            {% csrf_token %}
+            
+            <!-- Basic Information Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Basic Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gatePassId">Gate Pass ID</label>
+                                <input type="text" class="form-control" id="gatePassId" name="gatePassId" 
+                                       value="{{ form.gatePassId.value|default:'' }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="dateTime">Date and Time</label>
+                                <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" 
+                                       value="{{ form.dateTime.value|default:'' }}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="formType">Form Type</label>
+                                <select class="form-control" id="formType" name="formType" required>
+                                    <option value="returnable" {% if form.formType.value == 'returnable' %}selected{% endif %}>Returnable</option>
+                                    <option value="non-returnable" {% if form.formType.value == 'non-returnable' %}selected{% endif %}>Non-Returnable</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Department and Image Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Department Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="institution">Institution / Department</label>
+                                <select class="form-control" id="institution" name="institution" required>
+                                    <option value="">Select</option>
+                                    {% for inst in institutions %}
+                                        <option value="{{ inst.value }}" {% if form.institution.value == inst.value %}selected{% endif %}>
+                                            {{ inst.label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="sub_department">Sub Department</label>
+                                <select class="form-control" id="sub_department" name="sub_department" required>
+                                    <option value="">Select</option>
+                                    {% for dept in sub_departments %}
+                                        <option value="{{ dept.value }}" {% if form.sub_department.value == dept.value %}selected{% endif %}>
+                                            {{ dept.label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="productImage">Product Image</label>
+                                <input type="file" class="form-control-file" id="productImage" 
+                                       name="product_image" accept="image/*" capture="environment">
+                                <div class="image-preview mt-2">
+                                    {% if form.product_image.value %}
+                                        <img id="previewImage" src="{{ form.product_image.url }}" alt="Preview" class="img-thumbnail">
+                                    {% else %}
+                                        <img id="previewImage" src="#" alt="Preview" style="display: none;" class="img-thumbnail">
+                                    {% endif %}
+                                    <button type="button" id="deleteImage" class="btn btn-danger btn-sm mt-2" style="display: none;">
+                                        Remove Image
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Product Details</h5>
+                </div>
+                <div class="card-body" id="product_entries">
+                    <div class="product-entry mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Material Name</label>
+                                    <input type="text" class="form-control material-name" name="material_name[]" 
+                                           required pattern="[A-Za-z0-9\s]+" title="Only letters, numbers and spaces allowed">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                    <input type="number" class="form-control product-quantity" 
+                                           name="product_quantity[]" min="1" max="100" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" name="product_description[]" rows="2" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-add-product mb-4" id="addProductBtn">Add Another Product</button>
+
+            <!-- Additional Details Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Additional Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="reason">Reason</label>
+                                <select class="form-control" id="reason" name="reason" required>
+                                    <option value="">Select</option>
+                                    <option value="service">Service Purpose</option>
+                                    <option value="installation">Installation</option>
+                                    <option value="repair">Repair and Maintenance</option>
+                                    <option value="demonstration">Demonstration</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="expectedReturnDate">Expected Return Date</label>
+                                <input type="date" class="form-control" id="expectedReturnDate" 
+                                       name="expectedReturnDate" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Information Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Employee Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="employeeName">Employee Name</label>
+                                <input type="text" class="form-control" id="employeeName" 
+                                       name="employee_name" required pattern="[a-zA-Z\s]+">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="employeeId">Employee ID</label>
+                                <input type="text" class="form-control" id="employeeId" 
+                                       name="employee_id" required pattern="[0-9a-zA-Z]+">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="designation">Designation</label>
+                                <input type="text" class="form-control" id="designation" 
+                                       name="designation" required pattern="[a-zA-Z\s]+">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="contactNumber">Contact Number</label>
+                                <input type="tel" class="form-control" id="contactNumber" 
+                                       name="contact_info" required pattern="\d{10}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'JS/script.js' %}"></script>
+</body>
+</html>
+
+
+
+

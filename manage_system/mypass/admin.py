@@ -20,3 +20,4 @@ class ActionLogAdmin(admin.ModelAdmin):
     list_display = ('gate_pass', 'action_by', 'action_type', 'action_date')  # Show key action log fields
     list_filter = ('action_type', 'action_date')  # Filters for quick access to specific actions
     search_fields = ('gate_pass__pass_id', 'action_by__username')  # Enable search based on gate pass or user
+    

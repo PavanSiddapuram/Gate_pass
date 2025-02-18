@@ -22,12 +22,13 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user:
+        if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return redirect('dashboard')  # Redirect to dashboard after successful login
         else:
-            return render(request, 'index.html', {'error': 'Invalid username or password'})
-    return render(request, 'index.html')
+            messages.error(request, "Wrong username or password, Try Again.")  # Add an error message
+
+    return render(request, 'index.html')  # Render the login page again if authentication fails
 
 @login_required
 def logout_view(request):
@@ -82,28 +83,18 @@ def dashboard_view(request):
 
 
 @login_required
-def returnable_form_view(request):
-    """Handle submissions for returnable gate pass forms."""
+def gatepass_form_view(request):
     if request.method == 'POST':
-        form = ReturnableGatePassForm(request.POST, request.FILES, user=request.user)
-        if form.is_valid():
-            gate_pass = form.save(commit=False)
-            gate_pass.employee_id = request.user.username
-            gate_pass.pass_id = generate_unique_gate_pass_id()
-            gate_pass.save()
-            notify_approvers(gate_pass)
-            return redirect('dashboard')
+        form_type = request.POST.get('type')  # Get selected form type from the dropdown
+        if form_type == 'returnable':
+            form_class = ReturnableGatePassForm
+        elif form_type == 'nonreturnable':
+            form_class = NonReturnableGatePassForm
         else:
-            print(form.errors)  # Debugging: Print any form errors
-    else:
-        form = ReturnableGatePassForm(user=request.user)
-    return render(request, 'returnable_form.html', {'form': form})
+            messages.error(request, "Invalid gate pass type selected.")
+            return redirect('gatepass_form')
 
-@login_required
-def nonreturnable_form_view(request):
-    """Handle submissions for non-returnable gate pass forms."""
-    if request.method == 'POST':
-        form = NonReturnableGatePassForm(request.POST, request.FILES, user=request.user)
+        form = form_class(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             gate_pass = form.save(commit=False)
             gate_pass.employee_id = request.user.username
@@ -112,10 +103,14 @@ def nonreturnable_form_view(request):
             notify_approvers(gate_pass)
             return redirect('dashboard')
         else:
-            print(form.errors)  # Debugging: Print any form errors
+            # Re-render the form with validation errors and selected type
+            return render(request, 'gatepass_form.html', {
+                'form': form,
+                'form_type': form_type,
+            })
     else:
-        form = NonReturnableGatePassForm(user=request.user)
-    return render(request, 'nonreturnable_form.html', {'form': form})
+        # Initial GET request: show the form with type selection
+        return render(request, 'gatepass_form.html', {'form_type': None})
 
 @login_required
 def approval_view(request):
@@ -126,11 +121,13 @@ def approval_view(request):
     # Fetch pending gate passes based on user role
     if role == 'Department Head':
         gate_passes = GatePass.objects.filter(
-            approved_by_department_head=False, sub_department=user_profile.sub_department
+            approved_by_department_head=False,
+            sub_department=user_profile.sub_department
         )
     elif role == 'Security Head':
         gate_passes = GatePass.objects.filter(
-            approved_by_department_head=True, approved_by_security_head=False
+            approved_by_department_head=True,
+            approved_by_security_head=False
         )
     else:
         gate_passes = GatePass.objects.none()
@@ -144,21 +141,24 @@ def approval_view(request):
         if action == 'approve':
             if role == 'Department Head':
                 gate_pass.approved_by_department_head = True
+                gate_pass.department_head_name = user_profile.department_head_name  # Use the stored name
                 gate_pass.department_head_action_date = timezone.now()
-                messages.success(request, f'Gate pass {gate_pass.pass_id} approved by Department Head.')
+                messages.success(request, f'Gate pass {gate_pass.pass_id} approved by {gate_pass.department_head_name}.')
             elif role == 'Security Head':
                 gate_pass.approved_by_security_head = True
+                gate_pass.security_head_name = user_profile.security_head_name  # Use the stored name
                 gate_pass.security_head_action_date = timezone.now()
-                messages.success(request, f'Gate pass {gate_pass.pass_id} approved by Security Head.')
+                messages.success(request, f'Gate pass {gate_pass.pass_id} approved by {gate_pass.security_head_name}.')
+
         elif action == 'reject':
             if role == 'Department Head':
                 gate_pass.approved_by_department_head = False
                 gate_pass.department_head_action_date = timezone.now()
-                messages.warning(request, f'Gate pass {gate_pass.pass_id} rejected by Department Head.')
+                messages.warning(request, f'Gate pass {gate_pass.pass_id} rejected by Department Head {user_profile.department_head_name}.')
             elif role == 'Security Head':
                 gate_pass.approved_by_security_head = False
                 gate_pass.security_head_action_date = timezone.now()
-                messages.warning(request, f'Gate pass {gate_pass.pass_id} rejected by Security Head.')
+                messages.warning(request, f'Gate pass {gate_pass.pass_id} rejected by Security Head {user_profile.security_head_name}.')
 
         gate_pass.save()
         return redirect('approval')
@@ -167,6 +167,7 @@ def approval_view(request):
         'gate_passes': gate_passes,
         'user_profile': user_profile,
     })
+
 
 
 @login_required
@@ -187,7 +188,7 @@ def activity_view(request):
     return render(request, 'activity.html', {'gate_passes': gate_passes, 'user_role': role})
 
 def notify_approvers(gate_pass):
-    """Notify Department Head and Security Head about the gate pass request."""
+   #Notify Department Head and Security Head about the gate pass request.
     department_head = UserProfile.objects.filter(
         role='Department Head', sub_department=gate_pass.sub_department
     ).first()
@@ -207,7 +208,7 @@ def notify_approvers(gate_pass):
             f'Please review the gate pass request: {gate_pass.pass_id}',
             'pavanroyalsbsc3@gmail.com',  # Use a proper 'from' email
             [security_head.user.email],
-        )
+        ) 
 
 @login_required
 def view_details_view(request, gate_pass_id):
